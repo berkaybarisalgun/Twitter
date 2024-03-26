@@ -3,6 +3,7 @@ package com.twitter.backend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,7 @@ public class ApplicationUser {
 
 
     @Column(name = "last_name")
-    private String lastname;
+    private String lastName;
 
     @Column(unique = true)
     private String email;
@@ -28,7 +29,7 @@ public class ApplicationUser {
     private String phone;
 
     @Column(name="dob")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(unique = true)
     private String username;
@@ -44,8 +45,17 @@ public class ApplicationUser {
     )
     private Set<Role> authorities;
 
+    private Boolean enabled;
+
+    @Column(nullable = true)
+    @JsonIgnore
+    private long verification;
+
+
+
     public ApplicationUser(){
         this.authorities=new HashSet<>();
+        this.enabled=false;
     }
 
     public Integer getUserId() {
@@ -64,12 +74,12 @@ public class ApplicationUser {
         this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -88,11 +98,11 @@ public class ApplicationUser {
         this.phone = phone;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -112,20 +122,7 @@ public class ApplicationUser {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "ApplicationUser{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", authorities=" + authorities +
-                '}';
-    }
+
 
     public Set<Role> getAuthorities() {
         return authorities;
@@ -133,5 +130,40 @@ public class ApplicationUser {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public long getVerification() {
+        return verification;
+    }
+
+    public void setVerification(long verification) {
+        this.verification = verification;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationUser{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", authorities=" + authorities +
+                ", enabled=" + enabled +
+                ", verification=" + verification +
+                '}';
     }
 }
