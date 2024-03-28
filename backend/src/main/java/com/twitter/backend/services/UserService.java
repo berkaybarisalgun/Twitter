@@ -18,10 +18,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    private final MailService mailService;
+
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, MailService mailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.mailService = mailService;
     }
 
 
@@ -65,6 +68,8 @@ public class UserService {
         ApplicationUser user=userRepository.findByUsername(username).orElseThrow(UserdoesNotExistException::new);
 
         user.setVerification(generateVerificiationNumber());
+
+        mailService.sendEmail(user.getEmail(),"Your verification code","Here is your verification code: "+user.getVerification());
 
         userRepository.save(user);
 

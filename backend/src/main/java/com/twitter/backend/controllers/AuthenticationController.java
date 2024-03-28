@@ -1,6 +1,7 @@
 package com.twitter.backend.controllers;
 
 import com.twitter.backend.exceptions.EmailAlreadyTakenException;
+import com.twitter.backend.exceptions.EmailFailedToSendException;
 import com.twitter.backend.exceptions.UserdoesNotExistException;
 import com.twitter.backend.models.ApplicationUser;
 import com.twitter.backend.models.RegistrationObject;
@@ -52,6 +53,12 @@ public class AuthenticationController {
 
         return userService.updateUser(user);
     }
+
+    @ExceptionHandler({EmailFailedToSendException.class})
+    public ResponseEntity<String> handleFailedEmail(){
+        return new ResponseEntity<String>("Unable to send email,try again in a moment", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
     @PostMapping("/email/code")
     public ResponseEntity<String> createEmailVerification(@RequestBody LinkedHashMap<String,String> body) {
