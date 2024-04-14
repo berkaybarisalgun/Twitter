@@ -2,6 +2,7 @@ package com.twitter.backend.controllers;
 
 import com.twitter.backend.exceptions.EmailAlreadyTakenException;
 import com.twitter.backend.exceptions.EmailFailedToSendException;
+import com.twitter.backend.exceptions.IncorrectVerificationCodeException;
 import com.twitter.backend.exceptions.UserdoesNotExistException;
 import com.twitter.backend.models.ApplicationUser;
 import com.twitter.backend.models.RegistrationObject;
@@ -68,6 +69,27 @@ public class AuthenticationController {
     }
 
 
+    @ExceptionHandler({IncorrectVerificationCodeException.class})
+    public ResponseEntity<String> incorrectCodeHandler(){
+        return new ResponseEntity<String>("Incorrect verification code", HttpStatus.CONFLICT);
+    }
 
+    @PostMapping("/email/verify")
+    public ApplicationUser verifyEmail(@RequestBody LinkedHashMap<String,String> body) {
+        Long code=Long.parseLong(body.get("code"));
+
+        String username=body.get("username");
+
+        return userService.verifyEmail(username,code);
+
+    }
+
+    @PutMapping("/update/password")
+    public ApplicationUser updatePassword(@RequestBody LinkedHashMap<String,String> body) {
+        String username=body.get("username");
+        String password=body.get("password");
+
+        return userService.setPassword(username,password);
+    }
 
 }

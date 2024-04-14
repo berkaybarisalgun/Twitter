@@ -49,7 +49,7 @@ public class ApplicationUser {
 
     @Column(nullable = true)
     @JsonIgnore
-    private long verification;
+    private Long verification;
 
 
 
@@ -146,7 +146,7 @@ public class ApplicationUser {
         return verification;
     }
 
-    public void setVerification(long verification) {
+    public void setVerification(Long verification) {
         this.verification = verification;
     }
 
