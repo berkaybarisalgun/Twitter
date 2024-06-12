@@ -9,7 +9,5 @@ backend/target/classes/credentials.json
 /frontend/node_modules/workbox-webpack-plugin
 /frontend/node_modules/workbox-webpack-plugin/node_modules/webpack-sources
 /frontend/node_modules/workbox-webpack-plugin
-*.json
-*.js
 node_modules/
 
